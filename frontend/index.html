@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<br><br>
+
+<button onclick="search()">
+    Buscar
+</button>
+
+<br><br>
+
+<div id="info"></div>
+
+<br>
+
+<table>
+
+    <thead>
+    <tr>
+        <th>Libro A</th>
+        <th>Offset A</th>
+        <th>Libro B</th>
+        <th>Offset B</th>
+        <th>Frase</th>
+    </tr>
+    </thead>
+
+    <tbody id="results"></tbody>
+
+</table>
+
+<script>
+
+async function search() {
+
+    const n =
+        document.getElementById("n").value;
+
+    const page =
+        document.getElementById("page").value;
+
+    const response = await fetch(
+        `http://localhost/search?n=${n}&page=${page}&size=50`
+    );
+
+    const data = await response.json();
+
+    document.getElementById("info").innerHTML =
+        `Total resultados: ${data.totalResults}`;
+
+    const tbody =
+        document.getElementById("results");
+
+    tbody.innerHTML = "";
+
+    data.results.forEach(r => {
+
+        tbody.innerHTML += `
+        <tr>
+            <td>${r.bookA}</td>
+            <td>${r.offsetA}</td>
+            <td>${r.bookB}</td>
+            <td>${r.offsetB}</td>
+            <td>${r.phrase}</td>
+        </tr>
+        `;
+    });
+}
+
+</script>
+
+</body>
+</html>
